@@ -14,6 +14,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  double _counter = 0;
+
+  void changeCounter(double delta) {
+    setState(() {
+      _counter = double.parse((_counter + delta).toStringAsFixed(1));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +29,28 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
           child: Column(
         children: [
           IconButton(
-              onPressed: null, icon: Icon(Icons.refresh), key: Key('Refresh')),
+              onPressed: () => changeCounter(-_counter),
+              icon: const Icon(Icons.refresh),
+              key: const Key('Refresh')),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[W1(), W2(), W3()],
+            children: <Widget>[
+              W1(
+                number: _counter,
+                callback: changeCounter,
+              ),
+              W2(
+                value: _counter,
+              ),
+              W3(
+                number: _counter,
+                callback: changeCounter,
+              )
+            ],
           ),
         ],
       )),
